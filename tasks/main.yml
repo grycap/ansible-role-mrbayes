@@ -1,0 +1,34 @@
+---
+    - name: Include "{{ansible_os_family}}" MrBayes tasks
+      include: "{{ansible_os_family}}.yaml"
+
+    - name: Download source code of MrBayes
+      get_url: url=http://sourceforge.net/projects/mrbayes/files/mrbayes/3.2.6/mrbayes-3.2.6.tar.gz dest=/tmp/mrbayes-3.2.6.tar.gz
+
+    - name: Unarchive MrBayes
+      unarchive: src=/tmp/mrbayes-3.2.6.tar.gz dest=/tmp creates=/tmp/mrbayes-3.2.6/
+      
+    #Beagle library section
+    - name: obtain Beagle code
+      git: repo=https://github.com/beagle-dev/beagle-lib.git depth=1 dest=/tmp/beagle-lib version=master
+    - name: Autogen Beagle library
+      command: ./autogen.sh chdir=/tmp/beagle-lib creates=/usr/local/lib/libhmsbeagle.so
+    - name: Configure Beagle library
+      command: ./configure --prefix=/usr/local/ chdir=/tmp/beagle-lib creates=/usr/local/lib/libhmsbeagle.so
+    - name: Install Beagle library
+      command: make install chdir=/tmp/beagle-lib creates=/usr/local/lib/libhmsbeagle.so
+
+    # Configure and install MrBayes
+    - name: Autoconf MrBayes
+      command: autoconf chdir=/tmp/mrbayes-3.2.6/src creates=/tmp/mrbayes-3.2.6/src/Makefile
+    - name: Configure MrBayes
+      command: ./configure --enable-mpi=yes chdir=/tmp/mrbayes-3.2.6/src creates=/tmp/mrbayes-3.2.6/src/Makefile
+    - name: Install MrBayes
+      command: make chdir=/tmp/mrbayes-3.2.6/src creates=/tmp/mrbayes-3.2.6/src/mb
+    - name: Change permissions of MrBayes
+      file: path=/tmp/mrbayes-3.2.6/src/mb state=file mode=0755 
+    - name: configure environment variables
+      copy:
+        dest: /etc/profile.d/mrbayes.sh
+        content: |
+            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"

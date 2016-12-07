@@ -1,0 +1,6 @@
+---
+    - name: Apt install dependences in Deb system
+      apt: name=build-essential,autoconf,automake,libtool,subversion,pkg-config,openjdk-6-jdk,git update_cache=yes cache_valid_time=3600
+
+    - name: Apt install openmpi in Deb system
+      apt: name=openmpi-bin,openmpi-doc,libopenmpi-dev

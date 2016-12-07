@@ -1,0 +1,6 @@
+---
+    - name: Yum install dependences in REL system
+      yum: name=make,automake,gcc,gcc-c++,kernel-devel,git,autoconf,automake,libtool,subversion,pkgconfig,java-1.6.0-openjdk-devel state=latest update_cache=yes
+
+    - name: Yum install openmpi in REL system
+      yum: name=openmpi,openmpi-devel state=latest
