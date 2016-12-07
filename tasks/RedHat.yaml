@@ -4,3 +4,6 @@
 
     - name: Yum install openmpi in REL system
       yum: name=openmpi,openmpi-devel state=latest
+
+    - name: update PATH environment variable
+      shell: export PATH=$PATH:/usr/lib/openmpi/bin
