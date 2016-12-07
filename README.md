@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/grycap/ansible-role-mrbayes.svg?branch=master)](https://travis-ci.org/grycap/ansible-role-mrbayes)
 
 MrBayes Role
-===================
+============
 
 Ansible Role to install MrBayes software (recipe for EC3). MrBayes (http://mrbayes.sourceforge.net/) is a program for Bayesian inference and model choice across a wide range of phylogenetic and evolutionary models. MrBayes uses Markov chain Monte Carlo (MCMC) methods to estimate the posterior distribution of model parameters.
 
